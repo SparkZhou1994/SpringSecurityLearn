@@ -5,11 +5,14 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.method.P;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spark.dto.User;
 import spark.dto.UserQueryCondition;
 import sun.misc.UCDecoder;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @PostMapping
+    public User create(@Valid @RequestBody User user, BindingResult errors) {
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()));
+        }
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getBirthday());
+        user.setId("1");
+        return user;
+    }
 
     @GetMapping("/withParam")
     public List<User> queryWithParam(@RequestParam(name = "username", required = false, defaultValue = "Spark") String nickname) {
