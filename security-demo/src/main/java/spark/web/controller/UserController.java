@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import spark.dto.User;
 import spark.dto.UserQueryCondition;
+import spark.exception.UserNotExistException;
 import sun.misc.UCDecoder;
 
 import javax.validation.Valid;
@@ -60,7 +61,8 @@ public class UserController {
 
     @DeleteMapping("/{id:\\d+}")
     public void delete(@PathVariable String id) {
-        System.out.println(id);
+        /*System.out.println(id);*/
+        throw new UserNotExistException(id);
     }
 
 
