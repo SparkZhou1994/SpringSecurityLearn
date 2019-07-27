@@ -21,15 +21,17 @@ import java.util.List;
  **/
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-
+    // 执行顺序 : Filter > Interceptor > ControllerAdvice > Aspect > Controller
     /**
      *执行顺序（没有异常或@ExceptionHandler 处理异常）
      * 1.Filter -- doFilter
      * 2.Interceptor -- preHandle
-     * 3. Controller
-     * 4.Interceptor -- postHandle
-     * 5.Interceptor -- afterCompletion
-     * 6.Filter -- destory
+     * 3.Aspect -- @Before
+     * 4.Controller
+     * 5.Aspect -- @After
+     * 6.Interceptor -- postHandle
+     * 7.Interceptor -- afterCompletion
+     * 8.Filter -- destory
      * 其中如果是ExceptionHandler处理的异常被抛出 ,Interceptor的afterCompletion的Exception is null
      */
 
