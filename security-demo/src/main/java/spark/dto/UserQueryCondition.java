@@ -1,5 +1,7 @@
 package spark.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @ClassName UserQueryCondition
  * @Description TODO
@@ -8,10 +10,13 @@ package spark.dto;
  * @Version 1.0
  **/
 public class UserQueryCondition {
+
     private String username;
 
+    @ApiModelProperty(value = "用户年龄起始值")
     private Integer age;
 
+    @ApiModelProperty(value = "用户年龄终止值")
     private Integer ageTo;
 
     private String xxx;
