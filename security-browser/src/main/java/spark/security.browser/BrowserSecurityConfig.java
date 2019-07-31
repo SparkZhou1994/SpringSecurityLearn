@@ -43,6 +43,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(sparkAuthenticationFailureHandler);
+        validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.afterPropertiesSet();
 
         /*http.httpBasic()*/
         /*http.formLogin()*/
