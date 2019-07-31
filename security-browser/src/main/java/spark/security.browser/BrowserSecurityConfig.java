@@ -9,8 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import spark.security.browser.authentication.SparkAuthenticationSuccessHandler;
 import spark.security.core.properties.SecurityProperties;
+import spark.security.core.validate.code.ValidateCodeFilter;
 
 /**
  * @ClassName BrowserSecurityConfig
@@ -38,8 +40,14 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(sparkAuthenticationFailureHandler);
+
         /*http.httpBasic()*/
-        http.formLogin()
+        /*http.formLogin()*/
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 .loginPage("/signIn.html")
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(sparkAuthenticationSuccessHandler)
@@ -47,7 +55,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
-                        securityProperties.getBrowser().getLoginPage()).permitAll()
+                        securityProperties.getBrowser().getLoginPage(),
+                        "/code/image").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+import spark.security.browser.support.SimpleResponse;
 import spark.security.core.properties.LoginType;
 import spark.security.core.properties.SecurityProperties;
 
@@ -41,7 +42,7 @@ public class SparkAuthenticationFailureHandler /*implements AuthenticationFailur
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpServletResponse.setContentType("application/json;charset=UTF-8");
-            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(e));
+            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(e.getMessage())));
         } else {
             super.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
         }
