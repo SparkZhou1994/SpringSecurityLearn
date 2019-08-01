@@ -12,6 +12,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spark.security.core.properties.SecurityProperties;
+import spark.security.core.validate.code.image.ImageCode;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private SecurityProperties securityProperties;
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();

@@ -2,7 +2,7 @@ package spark.code;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
-import spark.security.core.validate.code.ImageCode;
+import spark.security.core.validate.code.image.ImageCode;
 import spark.security.core.validate.code.ValidateCodeGenerator;
 
 /**
