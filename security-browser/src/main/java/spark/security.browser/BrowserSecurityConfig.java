@@ -14,7 +14,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import spark.security.browser.authentication.SparkAuthenticationSuccessHandler;
+import spark.security.core.authentication.mobile.SmsCodeAuthenticationSeucurityConfig;
 import spark.security.core.properties.SecurityProperties;
+import spark.security.core.validate.code.SmsCodeFilter;
 import spark.security.core.validate.code.ValidateCodeFilter;
 
 import javax.sql.DataSource;
@@ -43,6 +45,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private SmsCodeAuthenticationSeucurityConfig smsCodeAuthenticationSeucurityConfig;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -66,9 +71,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(sparkAuthenticationFailureHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
+
         /*http.httpBasic()*/
         /*http.formLogin()*/
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                     .loginPage("/signIn.html")
                     .loginProcessingUrl("/authentication/form")
@@ -87,6 +98,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest()
                     .authenticated()
                     .and()
-                .csrf().disable();
+                .csrf().disable()
+                .apply(smsCodeAuthenticationSeucurityConfig);
     }
 }
