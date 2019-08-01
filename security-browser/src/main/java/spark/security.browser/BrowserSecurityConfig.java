@@ -10,14 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import spark.security.browser.authentication.SparkAuthenticationSuccessHandler;
+import spark.security.core.authentication.AbstractChannelSecurityConfig;
 import spark.security.core.authentication.mobile.SmsCodeAuthenticationSeucurityConfig;
+import spark.security.core.properties.SecurityConstants;
 import spark.security.core.properties.SecurityProperties;
-import spark.security.core.validate.code.SmsCodeFilter;
-import spark.security.core.validate.code.ValidateCodeFilter;
+import spark.security.core.validate.code.ValidateCodeSecurityConfig;
 
 import javax.sql.DataSource;
 
@@ -29,15 +28,9 @@ import javax.sql.DataSource;
  * @Version 1.0
  **/
 @Configuration
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SecurityProperties securityProperties;
-
-    @Autowired
-    private AuthenticationSuccessHandler sparkAuthenticationSuccessHandler;
-
-    @Autowired
-    private AuthenticationFailureHandler sparkAuthenticationFailureHandler;
 
     @Autowired
     private DataSource dataSource;
@@ -47,6 +40,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SmsCodeAuthenticationSeucurityConfig smsCodeAuthenticationSeucurityConfig;
+
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -66,39 +62,29 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHandler(sparkAuthenticationFailureHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
-
-        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
-        smsCodeFilter.setAuthenticationFailureHandler(sparkAuthenticationFailureHandler);
-        smsCodeFilter.setSecurityProperties(securityProperties);
-        smsCodeFilter.afterPropertiesSet();
-
-        /*http.httpBasic()*/
-        /*http.formLogin()*/
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    .loginPage("/signIn.html")
-                    .loginProcessingUrl("/authentication/form")
-                    .successHandler(sparkAuthenticationSuccessHandler)
-                    .failureHandler(sparkAuthenticationFailureHandler)
-                    .and()
-                .rememberMe()
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-                    .userDetailsService(userDetailsService)
-                    .and()
-                .authorizeRequests()
-                    .antMatchers("/authentication/require",
+        applyPasswordAuthenticationConfig(http);
+        http.apply(validateCodeSecurityConfig)
+                .and()
+            .apply(smsCodeAuthenticationSeucurityConfig)
+                .and()
+            .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
+                .and()
+            .authorizeRequests()
+                .antMatchers(
+                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        SecurityConstants.DEFAULT_LOGIN_IN_PROCESSING_URL_MOBILE,
                         securityProperties.getBrowser().getLoginPage(),
-                        "/code/*").permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                .csrf().disable()
-                .apply(smsCodeAuthenticationSeucurityConfig);
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
+                        .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+            .csrf().disable();
+
     }
+
+
 }

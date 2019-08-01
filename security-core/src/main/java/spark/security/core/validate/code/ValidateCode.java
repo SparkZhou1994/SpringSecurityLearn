@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  **/
 public class ValidateCode {
 
+    private static final long serialVersionUID = 1588203828504660915L;
+
     private String code;
 
     private LocalDateTime expireTime;

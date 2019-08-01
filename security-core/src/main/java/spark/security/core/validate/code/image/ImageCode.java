@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
  **/
 public class ImageCode extends ValidateCode {
 
+    private static final long serialVersionUID = -6020470039852318468L;
+
     private BufferedImage image;
 
     public ImageCode() {}
