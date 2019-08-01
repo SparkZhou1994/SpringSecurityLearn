@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 /**
  * @ClassName ImageCodeProcessor
- * @Description TODO
+ * @Description 根据不同的验证 处理不同的Send方法
  * @Author Spark
  * @Date 8/1/2019 12:49 PM
  * @Version 1.0

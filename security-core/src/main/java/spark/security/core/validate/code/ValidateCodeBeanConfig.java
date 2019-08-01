@@ -11,7 +11,7 @@ import spark.security.core.validate.code.sms.SmsCodeSender;
 
 /**
  * @ClassName ValidateCodeBeanConfig
- * @Description TODO
+ * @Description 生成CodeGenerator类
  * @Author Spark
  * @Date 8/1/2019 1:12 AM
  * @Version 1.0
