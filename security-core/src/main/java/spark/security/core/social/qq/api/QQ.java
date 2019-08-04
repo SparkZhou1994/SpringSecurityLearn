@@ -1,7 +1,5 @@
 package spark.security.core.social.qq.api;
 
-import java.io.IOException;
-
 /**
  * @ClassName QQ
  * @Description TODO
@@ -10,5 +8,5 @@ import java.io.IOException;
  * @Version 1.0
  **/
 public interface QQ {
-    QQUserInfo getUserInfo() throws IOException;
+    QQUserInfo getUserInfo();
 }

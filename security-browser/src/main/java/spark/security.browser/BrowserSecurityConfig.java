@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 import spark.security.core.authentication.AbstractChannelSecurityConfig;
 import spark.security.core.authentication.mobile.SmsCodeAuthenticationSeucurityConfig;
 import spark.security.core.properties.SecurityConstants;
@@ -44,6 +45,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
+    @Autowired
+    private SpringSocialConfigurer sparkSocialConfig;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -66,6 +70,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         http.apply(validateCodeSecurityConfig)
                 .and()
             .apply(smsCodeAuthenticationSeucurityConfig)
+                .and()
+            .apply(sparkSocialConfig)
                 .and()
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())
