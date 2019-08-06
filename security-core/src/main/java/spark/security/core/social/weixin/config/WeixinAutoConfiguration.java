@@ -10,6 +10,7 @@ import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.web.servlet.View;
 import spark.security.core.properties.SecurityProperties;
 import spark.security.core.properties.WeixinProperties;
+import spark.security.core.social.weixin.SparkConnectView;
 import spark.security.core.social.weixin.connect.WeixinConnectionFactory;
 
 /**
@@ -31,5 +32,11 @@ public class WeixinAutoConfiguration extends SocialAutoConfigurerAdapter {
         WeixinProperties weixinConfig = securityProperties.getSocial().getWeixin();
         return new WeixinConnectionFactory(weixinConfig.getProviderId(), weixinConfig.getAppId(),
                 weixinConfig.getAppSecret());
+    }
+
+    @Bean({"connect/weixinConnect", "connect/weixinConnected"})
+    @ConditionalOnMissingBean(name = "weixinConnectedView")
+    public View weixinConnectedView() {
+        return new SparkConnectView();
     }
 }
