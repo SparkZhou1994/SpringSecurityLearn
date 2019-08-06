@@ -17,6 +17,12 @@ public class BrowserProperties {
 
     private Integer rememberMeSeconds = 3600;
 
+    private String signInPage = SecurityConstants.DEFAULT_SIGN_IN_PAGE_URL;
+
+    private String signOutUrl;
+
+    private SessionProperties session = new SessionProperties();
+
     public String getLoginPage() {
         return loginPage;
     }
@@ -47,5 +53,29 @@ public class BrowserProperties {
 
     public void setSignUpUrl(String signUpUrl) {
         this.signUpUrl = signUpUrl;
+    }
+
+    public SessionProperties getSession() {
+        return session;
+    }
+
+    public void setSession(SessionProperties session) {
+        this.session = session;
+    }
+
+    public String getSignInPage() {
+        return signInPage;
+    }
+
+    public void setSignInPage(String signInPage) {
+        this.signInPage = signInPage;
+    }
+
+    public String getSignOutUrl() {
+        return signOutUrl;
+    }
+
+    public void setSignOutUrl(String signOutUrl) {
+        this.signOutUrl = signOutUrl;
     }
 }
