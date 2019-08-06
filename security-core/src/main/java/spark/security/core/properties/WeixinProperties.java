@@ -1,5 +1,6 @@
 package spark.security.core.properties;
 
+import org.springframework.boot.autoconfigure.social.SocialProperties;
 /**
  * @ClassName WeixinProperties
  * @Description TODO

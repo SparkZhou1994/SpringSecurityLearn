@@ -8,6 +8,5 @@ package spark.security.core.social.weixin.api;
  * @Version 1.0
  **/
 public interface Weixin {
-
     WeixinUserInfo getUserInfo(String openId);
 }
