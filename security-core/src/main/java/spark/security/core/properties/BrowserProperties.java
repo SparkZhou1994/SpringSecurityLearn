@@ -9,6 +9,8 @@ package spark.security.core.properties;
  **/
 public class BrowserProperties {
 
+    private String signUpUrl = "/signUp.html";
+
     private String loginPage = "/signIn.html";
 
     private LoginType loginType = LoginType.JSON;
@@ -37,5 +39,13 @@ public class BrowserProperties {
 
     public void setRememberMeSeconds(Integer rememberMeSeconds) {
         this.rememberMeSeconds = rememberMeSeconds;
+    }
+
+    public String getSignUpUrl() {
+        return signUpUrl;
+    }
+
+    public void setSignUpUrl(String signUpUrl) {
+        this.signUpUrl = signUpUrl;
     }
 }
