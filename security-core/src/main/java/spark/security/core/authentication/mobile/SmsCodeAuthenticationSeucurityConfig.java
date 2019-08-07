@@ -9,6 +9,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.AnnotationTypeMismatchException;
 
@@ -19,6 +20,7 @@ import java.lang.annotation.AnnotationTypeMismatchException;
  * @Date 8/1/2019 3:36 PM
  * @Version 1.0
  **/
+@Component
 public class SmsCodeAuthenticationSeucurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     @Autowired
