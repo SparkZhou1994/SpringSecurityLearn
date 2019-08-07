@@ -26,6 +26,8 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @Autowired
     private ValidateCodeRepository validateCodeRepository;
 
+    private SessionStrategy sessionStrategy;
+
     @Override
     public void create(ServletWebRequest request) throws Exception {
         C validateCode = generate(request);
@@ -46,7 +48,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     private void save(ServletWebRequest request, C validateCode) {
         ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-        validateCodeRepository.save(request, code, getValidateCodeType(request));
+        sessionStrategy.setAttribute(request, getSessionKey(request), code);
     }
 
     protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;

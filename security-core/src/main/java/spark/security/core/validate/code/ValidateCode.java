@@ -1,5 +1,6 @@
 package spark.security.core.validate.code;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
  * @Date 7/30/2019 4:40 PM
  * @Version 1.0
  **/
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     private static final long serialVersionUID = 1588203828504660915L;
 
