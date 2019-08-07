@@ -1,4 +1,4 @@
-package spark.security.browser.authentication;
+package spark.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+import spark.security.core.support.SimpleResponse;
 import spark.security.core.properties.LoginType;
 import spark.security.core.properties.SecurityProperties;
-import spark.security.core.support.SimpleResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

@@ -9,7 +9,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
-import spark.security.browser.support.SimpleResponse;
+import spark.security.core.support.SimpleResponse;
 import spark.security.core.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletRequest;

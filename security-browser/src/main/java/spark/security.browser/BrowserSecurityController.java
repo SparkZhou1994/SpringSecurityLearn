@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
-import spark.security.browser.support.SimpleResponse;
+import spark.security.core.support.SimpleResponse;
 import spark.security.browser.support.SocialUserInfo;
 import spark.security.core.properties.SecurityProperties;
 

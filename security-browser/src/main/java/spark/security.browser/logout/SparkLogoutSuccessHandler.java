@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import spark.security.browser.support.SimpleResponse;
-import spark.security.core.properties.SecurityProperties;
+import spark.security.core.support.SimpleResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
