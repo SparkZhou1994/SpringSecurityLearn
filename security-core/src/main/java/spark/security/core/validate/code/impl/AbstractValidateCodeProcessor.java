@@ -51,6 +51,10 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         sessionStrategy.setAttribute(request, getSessionKey(request), code);
     }
 
+    private String getSessionKey(ServletWebRequest request) {
+        return SESSION_KEY_PREFIX + getValidateCodeType(request).toString().toUpperCase();
+    }
+
     protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;
 
     private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
