@@ -20,12 +20,14 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
+    //登录校验前没有权限
     public SmsCodeAuthenticationToken(String mobile) {
         super(null);
         this.principal = mobile;
         setAuthenticated(false);
     }
 
+    //登录校验后有权限
     public SmsCodeAuthenticationToken(Object principal,
                                       Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
