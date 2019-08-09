@@ -68,7 +68,7 @@ public class SparkAuthenticationSuccessHandler /*implements AuthenticationSucces
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(authentication));
+        response.getWriter().write(objectMapper.writeValueAsString(token));
 
     }
 
