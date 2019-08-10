@@ -62,7 +62,7 @@ public class SparkResourceServerConfig extends ResourceServerConfigurerAdapter {
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
                         securityProperties.getBrowser().getSignUpUrl(),
                         securityProperties.getBrowser().getSignOutUrl(),
-                        "/user/regist","/session/invalid")
+                        "/user/regist","/session/invalid","/social/signUp")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

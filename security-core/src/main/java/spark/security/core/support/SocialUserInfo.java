@@ -1,4 +1,4 @@
-package spark.security.browser.support;
+package spark.security.core.support;
 
 /**
  * @ClassName SocialUserInfo

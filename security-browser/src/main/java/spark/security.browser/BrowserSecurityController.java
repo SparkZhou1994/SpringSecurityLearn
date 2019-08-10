@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import spark.security.core.support.SimpleResponse;
-import spark.security.browser.support.SocialUserInfo;
 import spark.security.core.properties.SecurityProperties;
+import spark.security.core.support.SocialUserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

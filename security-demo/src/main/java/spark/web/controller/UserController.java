@@ -21,6 +21,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import spark.dto.User;
 import spark.dto.UserQueryCondition;
 import spark.exception.UserNotExistException;
+import spark.security.app.social.AppSignUpUtils;
 import sun.misc.UCDecoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +43,14 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    @Autowired
+    private AppSignUpUtils appSignUpUtils;
+
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request) {
         String userId = user.getUsername();
         providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+        appSignUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
     }
 
     @GetMapping("/me")
