@@ -1,8 +1,11 @@
 package spark.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,12 @@ import spark.dto.User;
 import spark.dto.UserQueryCondition;
 import spark.exception.UserNotExistException;
 import spark.security.app.social.AppSignUpUtils;
+import spark.security.core.properties.SecurityProperties;
 import sun.misc.UCDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +51,9 @@ public class UserController {
     @Autowired
     private AppSignUpUtils appSignUpUtils;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request) {
         String userId = user.getUsername();
@@ -54,7 +62,13 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
+    public Object getCurrentUser(Authentication user, HttpServletRequest request) throws UnsupportedEncodingException {
+        String header = request.getHeader("Authorization");
+        String token = StringUtils.substringAfter(header,  "bearer ");
+        Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSigningKey().getBytes("UTF-8"))
+            .parseClaimsJws(token).getBody();
+        String company = (String)claims.get("company");
+        System.out.println("-->" + company);
         return user;
     }
 
