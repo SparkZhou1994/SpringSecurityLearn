@@ -13,6 +13,9 @@
     <module>security-browser</module>
     <module>security-core</module>
     <module>security-demo</module>
+    <module>sso-server</module>
+    <module>sso-client1</module>
+    <module>sso-client2</module>
   </modules>
 
   <name>spring-security-learn</name>
