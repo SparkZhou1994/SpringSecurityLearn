@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import spark.security.browser.logout.SparkLogoutSuccessHandler;
 import spark.security.browser.session.SparkExpiredSessionStrategy;
 import spark.security.core.authentication.AbstractChannelSecurityConfig;
 import spark.security.core.authentication.mobile.SmsCodeAuthenticationSeucurityConfig;
+import spark.security.core.authorize.AuthorizeConfigManager;
 import spark.security.core.properties.SecurityConstants;
 import spark.security.core.properties.SecurityProperties;
 import spark.security.core.validate.code.ValidateCodeSecurityConfig;
@@ -63,6 +65,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -100,22 +105,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
                 .and()
-            .authorizeRequests()
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_IN_PROCESSING_URL_MOBILE,
-                        securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        securityProperties.getBrowser().getSignUpUrl(),
-                        securityProperties.getBrowser().getSignOutUrl(),
-                        "/user/regist","/session/invalid")
-                        .permitAll()
-                .antMatchers(HttpMethod.GET,"/user/*").hasAuthority("write")
-                .anyRequest()
-                .authenticated()
-                .and()
             .csrf().disable();
-
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 
 
