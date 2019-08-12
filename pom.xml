@@ -16,6 +16,7 @@
     <module>sso-server</module>
     <module>sso-client1</module>
     <module>sso-client2</module>
+      <module>security-authorize</module>
   </modules>
 
   <name>spring-security-learn</name>

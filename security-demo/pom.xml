@@ -16,16 +16,21 @@
     <url>http://www.example.com</url>
 
     <dependencies>
-<!--        <dependency>
+        <dependency>
             <groupId>spark</groupId>
             <artifactId>security-browser</artifactId>
             <version>${spark.security.learn}</version>
-        </dependency>-->
+        </dependency>
         <dependency>
+            <groupId>spark</groupId>
+            <artifactId>security-authorize</artifactId>
+            <version>${spark.security.learn}</version>
+        </dependency>
+<!--        <dependency>
             <groupId>spark</groupId>
             <artifactId>security-app</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

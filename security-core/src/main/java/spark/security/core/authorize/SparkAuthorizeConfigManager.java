@@ -19,13 +19,13 @@ import java.util.Set;
 public class SparkAuthorizeConfigManager implements AuthorizeConfigManager{
 
     @Autowired
-    private Set<AuthorizeConfigProvider> authorizeConfigProviders;
+    private List<AuthorizeConfigProvider> authorizeConfigProviders;
 
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         for(AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
             authorizeConfigProvider.config(config);
         }
-        config.anyRequest().authenticated();
+        //config.anyRequest().authenticated();
     }
 }
