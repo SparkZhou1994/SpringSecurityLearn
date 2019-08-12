@@ -110,7 +110,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         securityProperties.getBrowser().getSignOutUrl(),
                         "/user/regist","/session/invalid")
                         .permitAll()
-                .antMatchers(HttpMethod.GET,"/user/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/user/*").hasAuthority("write")
                 .anyRequest()
                 .authenticated()
                 .and()
